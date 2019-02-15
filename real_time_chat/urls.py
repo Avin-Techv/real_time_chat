@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.urls import include, path
 from django.contrib import admin
+from apps.authentication.views import RegistrationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('register/', RegistrationView.as_view(), name='register'),
     path('', include('apps.authentication.urls')),
-    path('text_chat/', include('apps.text_chat.urls')),
+    path('text_chat/', include('apps.text_chat.urls'), name="text_chat"),
 ]
