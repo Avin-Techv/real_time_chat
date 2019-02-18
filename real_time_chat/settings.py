@@ -111,3 +111,5 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'staticfiles'),)
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'text_chat:home'

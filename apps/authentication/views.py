@@ -21,7 +21,7 @@ class RegistrationView(View):
         return render(request, 'authentication/registration.html', {'form': form})
 
 
-class AuthenticationHome(TemplateView):
+class HomePageView(TemplateView):
     template_name = "authentication/base.html"
 
 

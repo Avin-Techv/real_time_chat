@@ -1,0 +1,22 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="logout-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <h2>You have been logged out</h2>
+                </div>
+            </div>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    <a href="{% url 'authentication:login' %}">Login Again</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
