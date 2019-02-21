@@ -1,0 +1,16 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+    <div style="text-align:center">
+    </div>
+    {% else %}
+    <div style="text-align:center">
+        <h3>Welcome to Real Chat</h3>
+    </div>
+    {% endif %}
+
+{% endblock %}

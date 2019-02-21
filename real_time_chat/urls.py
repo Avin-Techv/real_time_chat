@@ -16,10 +16,15 @@ Including another URLconf
 from django.urls import include, path
 from django.contrib import admin
 from apps.authentication.views import RegistrationView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', RegistrationView.as_view(), name='register'),
-    path('', include('apps.authentication.urls')),
     path('text_chat/', include('apps.text_chat.urls'), name="text_chat"),
+    path('', include('apps.authentication.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
