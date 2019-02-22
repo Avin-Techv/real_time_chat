@@ -9,6 +9,10 @@ class TextChatHome(TemplateView):
     template_name = "text_chat/index.html"
 
 
+class ChatHome(TemplateView):
+    template_name = "text_chat/chat.html"
+
+
 def index(request):
     return render(request, 'text_chat/index.html', {})
 
