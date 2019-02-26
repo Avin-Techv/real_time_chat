@@ -18,3 +18,8 @@ env/
 
 #Exclude migrations
 migrations/
+
+#Exclude react packages
+frontend/.cache/
+frontend/dist
+frontend/node_modules
