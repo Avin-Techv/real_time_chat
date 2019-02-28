@@ -37,13 +37,23 @@
               <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
             </ul>
           </div>
-          <div id="expanded">
-            <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mikeross" />
-            <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="ross81" />
-            <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-            <input name="twitter" type="text" value="mike.ross" />
+          <div id="expanded" style="padding: 65px 0 0 0; !important;">
+                <button class="button" style="background-color: #32465a; border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  margin: 6px 2px;
+  cursor: pointer;" onclick="location.href='{% url 'authentication:profile' %}'">Profile</button>
+                <button class="button" style="background-color: #32465a; border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  margin: 6px 2px;
+  cursor: pointer;" onclick="location.href='{% url 'authentication:logout' %}'">Logout</button>
           </div>
         </div>
       </div>
@@ -69,7 +79,7 @@
               <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
               <div class="meta">
                 <p class="name">{{ username }}</p>
-                <p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
+                <p class="preview">{{ last_message }}</p>
               </div>
             </div>
           </li>
