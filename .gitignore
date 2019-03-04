@@ -23,3 +23,6 @@ migrations/
 frontend/.cache/
 frontend/dist
 frontend/node_modules
+
+#Exclude log file
+npm-debug.log

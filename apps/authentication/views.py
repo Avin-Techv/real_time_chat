@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, View
 from django.contrib import messages
 
 from apps.authentication.models import Profile
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
 class RegistrationView(View):
@@ -28,6 +28,16 @@ class RegistrationView(View):
 class ProfileView(TemplateView):
     login_required = True
     template_name = "authentication/profile.html"
+
+    def get(self, request, *args, **kwargs):
+        u_form = UserUpdateForm()
+        p_form = ProfileUpdateForm()
+
+        context = {
+            'u_form': u_form,
+            'p_form': p_form,
+        }
+        return self.render_to_response(context)
 
 
 class HomePageView(TemplateView):
