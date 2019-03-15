@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import TextChatHome
+from .views import UserHomeView
 app_name = "text_chat"
 
 urlpatterns = [
-    path('', TextChatHome.as_view(), name="home")
+    path('', UserHomeView.as_view(), name="home")
 ]

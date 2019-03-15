@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'apps.authentication',
     'apps.text_chat',
     'crispy_forms',
+    'django_private_chat',
 )
 
 MIDDLEWARE = [
@@ -113,3 +114,14 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'staticfiles'),)
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'text_chat:home'
+
+AUTH_USER_MODEL = 'auth.User'
+
+AUTHENTICATION_BACKENDS = (
+
+    'apps.authentication.backends.EmailBackend',
+)
+
+CHAT_WS_SERVER_HOST = 'localhost'
+CHAT_WS_SERVER_PORT = 5002
+CHAT_WS_SERVER_PROTOCOL = 'ws'
