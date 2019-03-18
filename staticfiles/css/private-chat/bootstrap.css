@@ -5640,6 +5640,12 @@ a.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 3px;
 }
+.message-box{
+  padding: 20px;
+  background: white;
+  height: 76%;
+  border: 1px solid #e2e2e2;
+}
 .close {
   float: right;
   font-size: 21px;

@@ -1,135 +1,110 @@
-{% load static %}
-{% load static %}
-{% load i18n %}
-{% block css %}
-{% endblock css %}
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="https://use.typekit.net/hoy3lrg.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
-    <link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
-    <link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
-    <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
-
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
-  </head>
-
-<body style="background-color: #12ab66;">
-
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>Some text in the modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-
-  <div id="frame">
-    <div id="sidepanel">
-      <div id="profile">
-        <div class="wrap" style="max-height: 150px;">
-          <img id="profile-img" src="http://emilcarlsson.se/assets/louislitt.png" class="online" alt="" />
-          <p>{{ user.get_full_name }}</p>
-          <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-          <div id="status-options">
-            <ul>
-              <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-              <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-              <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-              <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
-            </ul>
-          </div>
-          <div id="expanded" style="padding: 55px 0 0 0; !important;">
-                <button class="button" style="background-color: #32465a; border: none;
-  color: white;
-  padding: 5px 32px;
-  text-align: center;
-  text-decoration: none;
-  width: 100%;
-  margin: 6px 2px;
-  cursor: pointer;" onclick="location.href='{% url 'authentication:profile' %}'">Profile</button>
-                <button class="button" style="background-color: #32465a; border: none;
-  color: white;
-  padding: 5px 32px;
-  text-align: center;
-  text-decoration: none;
-  width: 100%;
-  margin: 6px 2px;
-  cursor: pointer;" onclick="location.href='{% url 'authentication:logout' %}'">Logout</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="contacts">
-        <ul>
-          <li class="contact">
-            <div class="wrap">
-
-              <img src="https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Chat-2-512.png" alt="" />
-              <div class="meta">
-                <p class="name">Start a Chat</p>
-                <p class="preview"></p>
-              </div>
-            </div>
-          </li>
-
-          {% for user in object_list %}
-            {% if user != request.user %}
-                <li class="contact" href="{% url 'dialogs_detail' user.username %}">
-                    <div class="wrap">
-                        <span class="contact-status online"></span>
-                        <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />
-                        <div class="meta" >
-                            <p class="name">{{ user.get_full_name }}</p>
-                            <p class="preview"></p>
-                        </div>
-                    </div>
-                </li>
-            {% endif %}
-          {% endfor %}
-
-        </ul>
-      </div>
-      <div id="bottom-bar">
-        <button id="addcontact" data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>
-
-        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>
-      </div>
-    </div>
-    <div class="content">
-
+{#{% extends "text_chat/base.html" %}#}
+{#{% load static %}#}
+{#{% load static %}#}
+{#{% load i18n %}#}
+{#{% block css %}#}
+{#{% endblock css %}#}
+{##}
+{##}
+{#{% block content %}#}
+{#<body style="background-color: #12ab66;">#}
+{##}
+{#  <!-- Modal -->#}
+{#  <div class="modal fade" id="myModal" role="dialog">#}
+{#    <div class="modal-dialog">#}
+{##}
+{#      <!-- Modal content-->#}
+{#      <div class="modal-content">#}
+{#        <div class="modal-header">#}
+{#          <button type="button" class="close" data-dismiss="modal">&times;</button>#}
+{#          <h4 class="modal-title">Modal Header</h4>#}
+{#        </div>#}
+{#        <div class="modal-body">#}
+{#          <p>Some text in the modal.</p>#}
+{#        </div>#}
+{#        <div class="modal-footer">#}
+{#          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>#}
+{#        </div>#}
+{#      </div>#}
+{##}
+{#    </div>#}
+{#  </div>#}
+{##}
+{##}
+{#  <div id="frame">#}
+{#    <div id="sidepanel">#}
+{#      <div id="profile">#}
+{#        <div class="wrap" style="max-height: 150px;">#}
+{#          <img id="profile-img" src="http://emilcarlsson.se/assets/louislitt.png" class="online" alt="" />#}
+{#          <p>{{ user.get_full_name }}</p>#}
+{#          <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>#}
+{#          <div id="status-options">#}
+{#            <ul>#}
+{#              <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>#}
+{#              <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>#}
+{#              <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>#}
+{#              <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>#}
+{#            </ul>#}
+{#          </div>#}
+{#          <div id="expanded" style="padding: 55px 0 0 0; !important;">#}
+{#                <button class="button" style="background-color: #32465a; border: none;#}
+{#  color: white;#}
+{#  padding: 5px 32px;#}
+{#  text-align: center;#}
+{#  text-decoration: none;#}
+{#  width: 100%;#}
+{#  margin: 6px 2px;#}
+{#  cursor: pointer;" onclick="location.href='{% url 'authentication:profile' %}'">Profile</button>#}
+{#                <button class="button" style="background-color: #32465a; border: none;#}
+{#  color: white;#}
+{#  padding: 5px 32px;#}
+{#  text-align: center;#}
+{#  text-decoration: none;#}
+{#  width: 100%;#}
+{#  margin: 6px 2px;#}
+{#  cursor: pointer;" onclick="location.href='{% url 'authentication:logout' %}'">Logout</button>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{##}
+{#      <div id="contacts">#}
+{#        <ul>#}
+{#          <li class="contact">#}
+{#            <div class="wrap">#}
+{##}
+{#              <img src="https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Chat-2-512.png" alt="" />#}
+{#              <div class="meta">#}
+{#                <p class="name">Start a Chat</p>#}
+{#                <p class="preview"></p>#}
+{#              </div>#}
+{#            </div>#}
+{#          </li>#}
+{##}
+{#          {% for user in object_list %}#}
+{#            {% if user != request.user %}#}
+{#                <li class="contact" href="{% url 'dialogs_detail' user.username %}">#}
+{#                    <div class="wrap">#}
+{#                        <span class="contact-status online"></span>#}
+{#                        <img src="http://emilcarlsson.se/assets/louislitt.png" alt="" />#}
+{#                        <div class="meta" >#}
+{#                            <p class="name">{{ user.get_full_name }}</p>#}
+{#                            <p class="preview"></p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </li>#}
+{#            {% endif %}#}
+{#          {% endfor %}#}
+{##}
+{#        </ul>#}
+{#      </div>#}
+{#      <div id="bottom-bar">#}
+{#        <button id="addcontact" data-toggle="modal" data-target="#myModal"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add contact</span></button>#}
+{##}
+{#        <button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>#}
+{#      </div>#}
+{#    </div>#}
+{#    <div class="content">#}
+{##}
 {#      <div class="messages" style="width: 100%;">#}
 {#        <ul id="chat-log">#}
 {#          {% comment %} <li class="sent">#}
@@ -151,42 +126,52 @@
 {#        </button>#}
 {#        </div>#}
 {#      </div>#}
-
-
-            <div class="well well-lg" style="width: 100%;height: 100%;position: relative;">
-            <p>{{ opponent_username }}</p>
-            <div style="
-            padding: 20px;
-    background: white;
-    height: 76%;
-    border: 1px solid #e2e2e2;"></div>
-
-                <div class="row" style="margin: 0px;">
-                    <div class="add-message" style="    width: 94%;
-    position: absolute;
-    left: 0px;
-    padding: 5px;
-    bottom: -37px;
-    margin: 20px;">
-                        <div class="form-group">
-                        <textarea id="chat-message" class="form-control message" style="width: 100%;"
-                                  placeholder="{% trans 'Write a message' %}"></textarea>
-                        </div>
-
-                        <div class="form-group clearfix">
-                            <input id="btn-send-message" type="submit" class="btn btn-primary pull-right send-message"
-                                   style="margin-left: 10px;" value="{% trans 'Send' %}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </div>
-
-  </div>
-
-<script src="{% static 'js/chat.js' %}"></script>
-
-
-</body>
-
-</html>
+{##}
+{##}
+{#            <div class="well well-lg" style="width: 100%;height: 100%;position: relative;">#}
+{#            <p>{{ opponent_username }}</p>#}
+{#            <div class="message-box">#}
+{##}
+{#                                            {% for msg in active_dialog.messages.all %}#}
+{#                                <div class="row  {% if msg.read %}msg-read{% else %}msg-unread{% endif %} {% if msg.sender != request.user %}opponent{% endif %}"#}
+{#                                     data-id="{{ msg.id }}">#}
+{#                                    <p class="{% if msg.sender == request.user %}pull-left{% else %}pull-right{% endif %}">#}
+{#                                        <span class="username">{{ msg.sender.username }}:</span>#}
+{#                                        {{ msg.text }}#}
+{#                                        <span class="timestamp">&ndash; <span#}
+{#                                                data-livestamp="{{ msg.get_formatted_create_datetime }}">{{ msg.get_formatted_create_datetime }}</span></span>#}
+{#                                    </p>#}
+{#                                </div>#}
+{#                            {% endfor %}#}
+{##}
+{#            </div>#}
+{##}
+{#                <div class="row" style="margin: 0px;">#}
+{#                    <div class="add-message" style="    width: 94%;#}
+{#    position: absolute;#}
+{#    left: 0px;#}
+{#    padding: 5px;#}
+{#    bottom: -37px;#}
+{#    margin: 20px;">#}
+{#                        <div class="form-group">#}
+{#                        <textarea id="chat-message" class="form-control message" style="width: 100%;"#}
+{#                                  placeholder="{% trans 'Write a message' %}"></textarea>#}
+{#                        </div>#}
+{##}
+{#                        <div class="form-group clearfix">#}
+{#                            <input id="btn-send-message" type="submit" class="btn btn-primary pull-right send-message"#}
+{#                                   style="margin-left: 10px;" value="{% trans 'Send' %}"/>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#    </div>#}
+{##}
+{#  </div>#}
+{##}
+{#<script src="{% static 'js/chat.js' %}"></script>#}
+{#{% endblock %}#}
+{##}
+{#</body>#}
+{##}
+{#</html>#}
