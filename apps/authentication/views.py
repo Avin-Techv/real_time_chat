@@ -15,7 +15,6 @@ class UserLoginView(LoginView):
         url_front = resolve_url(settings.LOGIN_REDIRECT_URL)
         url_back = self.request.user.username
         final_url = (url_front + url_back)
-        print(final_url, 'zzzzzzzzzzzzzz')
         return final_url or resolve_url(settings.LOGIN_REDIRECT_URL)
 
 

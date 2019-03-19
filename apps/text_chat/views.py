@@ -12,5 +12,5 @@ class UserHomeView(LoginRequiredMixin, generic.ListView):
     model = get_user_model()
     slug_field = 'username'
     slug_url_kwarg = 'username'
-    template_name = 'text_chat/users.html'
+    template_name = 'text_chat/base.html'
     login_url = 'admin/'
