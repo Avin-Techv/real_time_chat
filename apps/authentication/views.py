@@ -6,6 +6,7 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.models import User
 from real_time_chat import settings
+import collections
 
 
 class UserLoginView(LoginView):
@@ -39,6 +40,7 @@ class RegistrationView(View):
         return render(request, 'authentication/registration.html', {'form': form})
 
     def generate_username(self, first_name, last_name):
+        import pdb;pdb.set_trace()
         username = '%s%s' % (first_name[0], last_name)
         if User.objects.filter(username=username).count() > 0:
             username = '%s%s' % (first_name, last_name[0])
@@ -47,9 +49,9 @@ class RegistrationView(View):
                     'username')
                 if len(users) > 0:
                     last_number_used = map(lambda x: int(x['username'].replace(first_name, '')), users)
-                    last_number_used.sort()
+                    last_number_used = sorted(last_number_used)
                     last_number_used = last_number_used[-1]
-                    number = last_number_used + 1
+                    number = last_number_used + 1   
                     username = '%s%s' % (first_name, number)
                 else:
                     username = '%s%s' % (first_name, 1)
