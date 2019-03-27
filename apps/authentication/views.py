@@ -1,15 +1,20 @@
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.views.generic import TemplateView, View
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.models import User
 from real_time_chat import settings
-import collections
 
 
 class UserLoginView(LoginView):
+
+    def get_context_data(self, **kwargs):
+        context = super(UserLoginView, self).get_context_data(**kwargs)
+        context['user_list'] = User.objects.all()
+        return context
+
 
     def get_success_url(self):
         url = self.get_redirect_url(),
@@ -36,11 +41,10 @@ class RegistrationView(View):
             user.username = username
             user.save()
             messages.success(request, f"Account created for {first_name} {last_name}!")
-            return redirect('text_chat:home')
+            return redirect('authentication:login')
         return render(request, 'authentication/registration.html', {'form': form})
 
     def generate_username(self, first_name, last_name):
-        import pdb;pdb.set_trace()
         username = '%s%s' % (first_name[0], last_name)
         if User.objects.filter(username=username).count() > 0:
             username = '%s%s' % (first_name, last_name[0])

@@ -17,6 +17,8 @@ from django.urls import include, path
 from django.contrib import admin
 from apps.authentication.views import RegistrationView
 from django_private_chat import urls as django_private_chat_urls
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,3 +27,5 @@ urlpatterns = [
     path('', include('apps.authentication.urls')),
     path('', include(django_private_chat_urls)),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

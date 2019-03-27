@@ -1,16 +1,18 @@
-from django.views.generic import TemplateView
+from django.contrib.auth.models import User
+from apps.authentication.models import Profile
+from django.views.generic import ListView
 from braces.views import LoginRequiredMixin
-from django.views import generic
-from django.contrib.auth import get_user_model
+from django_private_chat.models import Message, Dialog
+from django_private_chat.views import DialogListView
 
 
-class TextChatHome(TemplateView):
-    template_name = "text_chat/base.html"
+class UserView(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'django_private_chat/base.html'
 
-
-class UserHomeView(LoginRequiredMixin, generic.ListView):
-    model = get_user_model()
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-    template_name = 'text_chat/base.html'
-    login_url = 'admin/'
+    def get_context_data(self, **kwargs):
+        context = super(UserView, self).get_context_data(**kwargs)
+        context['profile'] = Profile.objects.all()
+        context['user_list'] = User.objects.all()
+        context['message_list'] = Message.objects.all()
+        return context
