@@ -111,6 +111,7 @@ $(document).ready(function () {
                 type: "check-online",
                 session_key: '{{ request.session.session_key }}',
                 username: opponent_username
+                // Sending username because the user needs to know if his opponent is online
             });
             var onConnectPacket = JSON.stringify({
                 type: "online",
@@ -132,6 +133,7 @@ $(document).ready(function () {
                 type: "offline",
                 session_key: '{{ request.session.session_key }}',
                 username: opponent_username,
+                // Sending username because to let opponnent know that the user went offline
             });
             console.log('unloading, sending:', onClosePacket);
             websocket.send(onClosePacket);
@@ -224,7 +226,7 @@ $(document).ready(function () {
     }
 
     $('#chat-message').keypress(function (e) {
-        if (e.which === 13 && this.value) {
+        if (e.which == 13 && this.value) {
             sendMessage(this.value);
             this.value = "";
             return false

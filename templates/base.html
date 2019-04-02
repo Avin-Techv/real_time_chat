@@ -20,7 +20,7 @@
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 
@@ -36,7 +36,7 @@
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
@@ -99,7 +99,6 @@
 		<div id="contacts" class="hide-contacts">
 			<ul id="contact-list">
                 {% for user in user_list %}
-
                     {% if user.id != request.user.id and not user.is_superuser %}
                         <li id="individual_contact" class="contact">
                             <a href="{{ user.username }}">
@@ -223,33 +222,27 @@
       $(".contacts input").focus(function() {
           $('.contacts').show();
         });
-
       function replace( hide, show ) {
           document.getElementById(hide).style.display="none";
           document.getElementById(show).style.display="block";
       }
-
        $(document).ready(function(){
           $('ul li').click(function(){
             $('li').removeClass("active");
             $(this).addClass("active");
           });
-
           $("#search_contacts").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#contact-list li").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
           });
           });
-
        });
-
        $('#individual_contact ').on('click',function(){
             if($('#1').css('display')!='none'){
             $('#2').html('Here is my dynamic content').show().siblings('div').hide();
             }
        });
-
 </script>
 
 <style>
