@@ -40,173 +40,99 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
-    <div id="sidepanel">
     <body style="background-color: #12ab66;">
     <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-    <div class="container">
+        <div id="frame">
+            <div id="sidepanel">
+                <div id="profile">
+                    <div class="wrap">
+                        <img id="profile-img" src={{ user.profile.image.url }} class="online" alt="" />
+                        <p>{{ request.user.get_full_name }}</p>
+                        <i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+                        <div id="status-options">
+                            <ul>
+                                <li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+                                <li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+                                <li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+                                <li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+                            </ul>
+                        </div>
+                        <div id="expanded">
+                            <label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+                            <input name="twitter" type="text" value="mikeross" />
+                            <label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+                            <input name="twitter" type="text" value="ross81" />
+                            <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+                            <input name="twitter" type="text" value="mike.ross" />
+                        </div>
+                    </div>
+                </div>
+                <div id="search">
+                    <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+                    <input id="search_contacts" type="text" placeholder="Search contacts..." />
+                </div>
 
-{#                <div class="panel-body" style="display: none;">#}
-{#                    <div class="user-list-div">#}
-{#                        <ul style="list-style-type: none;">#}
-{#                            {% for dialog in object_list %}#}
-{#                                <li>#}
-{#                                    {% if dialog.owner == request.user %}#}
-{#                                        {% with dialog.opponent.username as username %}#}
-{#                                            <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"#}
-{#                                               class="btn btn-danger">{% trans "Chat with" %} {{ username }}</a>#}
-{#                                        {% endwith %}#}
-{#                                    {% else %}#}
-{#                                        {% with dialog.owner.username as username %}#}
-{#                                            <a href="{% url 'dialogs_detail' username %}" id="user-{{ username }}"#}
-{#                                               class="btn btn-danger">{% trans "Chat with" %} {{ username }}</a>#}
-{#                                        {% endwith %}#}
-{#                                    {% endif %}#}
-{#                                </li>#}
-{#                            {% endfor %}#}
-{#                        </ul>#}
-{#                    </div>#}
-{#                </div>#}
-<div id="frame">
-    <div id="sidepanel">
-		<div id="profile">
-			<div class="wrap">
-				<img id="profile-img" src={{ user.profile.image.url }} class="online" alt="" />
-				<p>{{ request.user.get_full_name }}</p>
-				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
-				<div id="status-options">
-					<ul>
-						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
-						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
-						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
-						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
-					</ul>
-				</div>
-				<div id="expanded">
-					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="mikeross" />
-					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="ross81" />
-					<label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
-					<input name="twitter" type="text" value="mike.ross" />
-				</div>
-			</div>
-		</div>
-		<div id="search">
-			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-			<input id="search_contacts" type="text" placeholder="Search contacts..." />
-		</div>
+                <div id="contacts" class="hide-contacts">
+                    <ul id="contact-list">
+                        {% for user in user_list %}
+                            {% if user.id != request.user.id and not user.is_superuser %}
+                                <li id="individual_contact" class="contact">
+                                    <a href="{{ user.username }}">
+                                    <div class="wrap">
+                                        <span class="status-online"></span>
+                                        <img src="{{ user.profile.image.url }}" alt="dp" />
+                                        <div class="meta" style="color: #ffffff">
+                                            <p class="name">{{ user.get_full_name }}</p>
+                                            <p class="preview"></p>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
 
-		<div id="contacts" class="hide-contacts">
-			<ul id="contact-list">
-                {% for user in user_list %}
-                    {% if user.id != request.user.id and not user.is_superuser %}
-                        <li id="individual_contact" class="contact">
-                            <a href="{{ user.username }}">
-                            <div class="wrap">
-                                <span class="status-online"></span>
-                                <img src="{{ user.profile.image.url }}" alt="dp" />
-                                <div class="meta" style="color: #ffffff">
-                                    <p class="name">{{ user.get_full_name }}</p>
-                                    <p class="preview"></p>
-                                </div>
-                            </div>
-                            </a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-			</ul>
-		</div>
+                <div id="bottom-bar">
+                    <button id="addcontact" onclick="window.location.href='{% url 'authentication:profile' %}' "><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Profile</span></button>
+                    <button id="settings" onclick="window.location.href='{% url 'authentication:logout' %}' "><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Logout</span></button>
+                </div>
+            </div>
+            <div class="content">
 
-		<div id="bottom-bar">
-			<button id="addcontact" onclick="window.location.href='{% url 'authentication:profile' %}' "><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Profile</span></button>
-			<button id="settings" onclick="window.location.href='{% url 'authentication:logout' %}' "><i class="fa fa-sign-out" aria-hidden="true"></i> <span>Logout</span></button>
-		</div>
-	</div>
-    <div class="content">
+                <div id="messages" class="messages">
+                    <ul>
+                        {% for msg in active_dialog.messages.all %}
+                            {% if request.user.username != msg.sender.username %}
+                                <li class="sent">
+                                <img src="http://emilcarlsson.se/assets/mikeross.png"  />
+                                <p>{{ msg.text }}<br>
+                                   {{ msg.get_formatted_create_datetime }}
+                                </p>
+                                </li>
+                            {% else %}
+                                <li class="replies">
+                                <img src="http://emilcarlsson.se/assets/mikeross.png" />
+                                <p>{{ msg.text }} <br>
+                                   {{ msg.get_formatted_create_datetime }}</p>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
 
-        <div id="messages" class="messages">
-            <ul>
-                {% for msg in active_dialog.messages.all %}
-                    {% if request.user.username != msg.sender.username %}
-                        <li class="sent">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png"  />
-                        <p>{{ msg.text }}<br>
-                           {{ msg.get_formatted_create_datetime }}
-                        </p>
-                        </li>
-                    {% else %}
-                        <li class="replies">
-                        <img src="http://emilcarlsson.se/assets/mikeross.png" />
-                        <p>{{ msg.text }} <br>
-                           {{ msg.get_formatted_create_datetime }}</p>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
+                 <div class="message-input">
+                    <div class="wrap">
+                    <input id="chat-message" class="form-control message" type="text" placeholder="Write your message..." />
+                        <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+                        <button id="btn-send-message" type="submit" class="submit send-message"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
+                </div>
 
-         <div class="message-input">
-            <div class="wrap">
-            <input id="chat-message" class="form-control message" type="text" placeholder="Write your message..." />
-                <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
-                <button id="btn-send-message" type="submit" class="submit send-message"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
             </div>
         </div>
 
-	</div>
-</div>
 
-
-{#    Chat Window Working#}
-{#        <div class="col-md-9">#}
-{#            <div class="well well-lg" style="background: #2c3e50">#}
-{#                <div class="row">#}
-{#                    <div class="col-md-3 col-md-offset-9">#}
-{#                    <span class="pull-right" hidden id="typing-text">#}
-{#                        <strong>{{ opponent_username }} {% trans "is typing..." %}</strong>#}
-{#                    </span>#}
-{#                    </div>#}
-{#                    <p style="color: white">#}
-{#                        {{ opponent_username }}#}
-{#                    </p>#}
-{#                    <p class="text-success" id="online-status" style="display: none">{% trans "Online" %}</p>#}
-{#                    <p class="text-danger" id="offline-status" style="display: none">{% trans "Offline" %}</p>#}
-{##}
-{#                    <div class="messages-container" style="width: 100%;">#}
-{#                        <div id="messages" class="messages" style="box-sizing: border-box;#}
-{#    padding: 20px;#}
-{#    overflow: auto;#}
-{#    height: 300px;">#}
-{#                            {% for msg in active_dialog.messages.all %}#}
-{#                                <div class="row  {% if msg.read %}msg-read{% else %}msg-unread{% endif %} {% if msg.sender != request.user %}opponent{% endif %}"#}
-{#                                     data-id="{{ msg.id }}">#}
-{#                                    <p class="{% if msg.sender == request.user %}pull-left{% else %}pull-right{% endif %}">#}
-{#                                        <span class="username">{{ msg.sender.username }}:</span>#}
-{#                                        {{ msg.text }}#}
-{#                                        <span class="timestamp">&ndash; <span#}
-{#                                                data-livestamp="{{ msg.get_formatted_create_datetime }}">{{ msg.get_formatted_create_datetime }}</span></span>#}
-{#                                    </p>#}
-{#                                </div>#}
-{#                            {% endfor %}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-
-{#                <div class="row">#}
-{#                    <div class="add-message">#}
-{#                        <div class="form-group">#}
-{#                        <textarea id="chat-message" class="form-control message"#}
-{#                                  placeholder="{% trans 'Write a message' %}"></textarea>#}
-{#                        </div>#}
-{##}
-{#                        <div class="form-group clearfix">#}
-{#                            <input id="btn-send-message" type="submit" class="btn btn-primary pull-right send-message"#}
-{#                                   style="margin-left: 10px;" value="{% trans 'Send' %}"/>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-            </div>
-        </div>
     </div>
     </body>
     </div>
@@ -286,9 +212,9 @@
     function addNewMessage(packet) {
         var msg_class = "";
         if (packet['sender_name'] == $("#owner_username").val()) {
-            msg_class = "pull-left";
+            msg_class = "replies";
         } else {
-            msg_class = "pull-right";
+            msg_class = "sent";
         }
         var msgElem =
             $('<div class="row msg-unread" data-id="' + packet.message_id + '">' +
