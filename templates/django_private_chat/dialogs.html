@@ -15,6 +15,7 @@
     <!-- Private Chat CSS-->
     <link href="{% static "css/private-chat/bootstrap.css" %}" rel="stylesheet" type="text/css" media="all">
     <link href="{% static "css/private-chat/style.css" %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static "css/contacts.css" %}" rel="stylesheet" type="text/css" media="all">
 
     <!-- Users -->
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
@@ -40,6 +41,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
+
     <body style="background-color: #12ab66;">
     <input id="owner_username" type="hidden" value="{{ request.user.username }}">
         <div id="frame">
@@ -67,13 +69,19 @@
                         </div>
                     </div>
                 </div>
-                <div id="search">
-                    <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
-                    <input id="search_contacts" type="text" placeholder="Search contacts..." />
-                </div>
+
 
                 <div id="contacts" class="hide-contacts">
-                    <ul id="contact-list">
+                    <ul id="contact-list" class="contact-class">
+                        <li class="contact" onclick="displayContacts()">
+					        <div class="wrap">
+						        <img src="/media/new_chat.png" alt="" />
+						        <div class="meta">
+							        <p class="name">Start a chat</p>
+							        <p class="preview"></p>
+						        </div>
+					        </div>
+				        </li>
                         {% for user in user_list %}
                             {% if user.id != request.user.id and not user.is_superuser %}
                                 <li id="individual_contact" class="contact">
@@ -121,19 +129,55 @@
                     </ul>
                 </div>
 
-                 <div class="message-input">
+                <div id="contact-menu" class="contact-menu" style="display: none;">
+                    <div class="back">
+                           <img border="" alt="W3Schools" src="/media/back.png" onclick="displayMessages()" >
+                    </div>
+
+
+                    <div class="row m0">
+                         <div class="contact-wrap">
+                            <div class="search-contact">
+                                <input type="text" class="" placeholder="Add to start a chat or group chat" />
+                                <button class="">Search</button>
+                            </div>
+                            <div class="all-contact">
+                                <h4>All Contacts</h4>
+                                <div class="contact-box">
+                                    <div class="contact-image">
+                                        <img src="/media/default.jpg"/>
+                                    </div>
+                                    <div class="contact-name">
+                                        <h4>Abin Varghese Techversant</h4>
+                                        <p>Mobile • +918089552309</p>
+                                    </div>
+                                </div>
+                                   <div class="contact-box">
+                                    <div class="contact-image">
+                                        <img src="/media/default.jpg"/>
+                                    </div>
+                                    <div class="contact-name">
+                                        <h4>Abin Varghese Techversant</h4>
+                                        <p>Mobile • +918089552309</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                 <div id="message-input" class="message-input">
                     <div class="wrap">
                     <input id="chat-message" class="form-control message" type="text" placeholder="Write your message..." />
                         <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
                         <button id="btn-send-message" type="submit" class="submit send-message"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                     </div>
                  </div>
-
             </div>
+
         </div>
-    </div>
     </body>
-    </div>
 
 {% block extra_js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollmonitor/1.2.0/scrollMonitor.js"
@@ -142,23 +186,33 @@
 {% endblock %}
 
 <script>
-      {#$(".contacts input").focus(function() {#}
-      {#    $('.contacts').show();#}
-      {#  });#}
-       $(document).ready(function(){
 
-          $("#search_contacts").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#contact-list li").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-          });
-          });
-       });
-       {#$('#individual_contact ').on('click',function(){#}
-       {#     if($('#1').css('display')!='none'){#}
-       {#     $('#2').html('Here is my dynamic content').show().siblings('div').hide();#}
-       {#     }#}
-       {#});#}
+    function displayContacts() {
+        var x = document.getElementById("contact-menu");
+        var y = document.getElementById("messages");
+        var z = document.getElementById("message-input");
+
+        if (x.style.display === "none") {
+            x.style.display = "block";
+            y.style.display = "none";
+            z.style.display = "none";
+        }
+    }
+
+    function displayMessages() {
+        var x = document.getElementById("contact-menu");
+        var y = document.getElementById("messages");
+        var z = document.getElementById("message-input");
+
+        if (x.style.display === "block") {
+            x.style.display = "none";
+            y.style.display = "block";
+            z.style.display = "block";
+        }
+    }
+
+
+    //websocket from django_private_chat
 
     var base_ws_server_path = "{{ ws_server_path }}";
     $(document).ready(function () {
