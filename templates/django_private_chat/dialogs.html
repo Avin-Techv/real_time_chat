@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% load static %}
 {% load crispy_forms_tags %}
 {% load i18n %}
@@ -7,13 +8,12 @@
 <head>
 
     <!-- Private Chat JS-->
-    <script src="{% static "js/private-chat/jquery.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/private-chat/jquery-v3.3.1.js" %}" type="text/javascript"></script>
     <script src="{% static "js/private-chat/bootstrap.min.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/private-chat/handlebars-v1.3.0.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/private-chat/handlebars-v4.1.1.min.js" %}" type="text/javascript"></script>
     <script src="{% static 'js/chat.js' %}"></script>
 
     <!-- Private Chat CSS-->
-    <link href="{% static "css/private-chat/bootstrap.css" %}" rel="stylesheet" type="text/css" media="all">
     <link href="{% static "css/private-chat/style.css" %}" rel="stylesheet" type="text/css" media="all">
     <link href="{% static "css/contacts.css" %}" rel="stylesheet" type="text/css" media="all">
 
@@ -21,14 +21,13 @@
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+{#    <link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />#}
     <link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
     <link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
@@ -37,7 +36,6 @@
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
@@ -138,30 +136,28 @@
                     <div class="row m0">
                          <div class="contact-wrap">
                             <div class="search-contact">
-                                <input id="search_contacts" type="text" class="" placeholder="Add to start a chat or group chat" />
+                                <input id="search_contacts_new" type="text" class="" placeholder="Add to start a chat or group chat" />
                                 <button class="">Start</button>
                             </div>
                             <div class="all-contact">
                                 <h4>All Contacts</h4>
-                                <ul id="contact-list">
-                                    <li class="contact-box">
-                                        <div class="contact-image">
-                                            <img src="/media/default.jpg"/>
-                                        </div>
-                                        <div class="contact-name">
-                                            <h4>Abin Varghese Techversant</h4>
-                                            <p>Mobile • +918089552309</p>
-                                        </div>
-                                    </li>
-                                       <li class="contact-box">
-                                        <div class="contact-image">
-                                            <img src="/media/default.jpg"/>
-                                        </div>
-                                        <div class="contact-name">
-                                            <h4>Abin Varghese Techversant</h4>
-                                            <p>Mobile • +918089552309</p>
-                                        </div>
-                                    </li>
+                                <ul id="contact-list-new">
+                                     {% for user in user_list %}
+                                        {% if user.id != request.user.id and not user.is_superuser %}
+                                            <li id="individual_contact" class="contact-box">
+                                                <div class="contact-image">
+                                                    <img src="{{ user.profile.image.url }}"/>
+                                                </div>
+                                                <div class="contact-name">
+                                                    <h4>{{ user.get_full_name }}</h4>
+                                                    <p>{{ user.email }}</p>
+                                                </div>
+                                                <div class="contact-tick">
+                                                    <img id="default-tick" class="default-tick-class" src="/media/default-tick.png"/>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
@@ -213,12 +209,49 @@
         }
     }
 
-    $("#search_contacts").on("keyup", function() {
+    //search contacts in new chat
+    $("#search_contacts_new").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("#contact-list li").filter(function() {
+        $("#contact-list-new li").filter(function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
       });
     });
+
+    //change image on hover tick button
+    $(function(){
+      $(".default-tick-class").on({
+       mouseenter: function(){
+          if ($(this).attr('src') == '/media/success-tick.png') {
+              $(this).attr('src','/media/success-tick.png');
+          }
+          else {
+              $(this).attr('src','/media/selected-tick.png');
+          }
+      },
+      mouseleave: function() {
+          if ($(this).attr('src') == '/media/success-tick.png') {
+              $(this).attr('src','/media/success-tick.png');
+          }
+          else {
+              $(this).attr('src','/media/default-tick.png');
+          }
+      }
+      });
+
+    });
+
+    $(function() {
+        $('.default-tick-class').click(function(){
+            if($(this).attr('src')=='/media/success-tick.png'){
+                $(this).attr('src','/media/default-tick.png');
+            }
+            else {
+                $(this).attr('src','/media/success-tick.png');
+            }
+        });
+    });
+
+
 
 
     //websocket from django_private_chat
