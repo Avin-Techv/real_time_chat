@@ -7,9 +7,6 @@
 */*/__pycache__/
 */__pycache__/
 
-#Exclude Media files
-media/
-
 #Exclude database files
 db.sqlite3
 

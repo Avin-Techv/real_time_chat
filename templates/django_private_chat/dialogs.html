@@ -138,29 +138,31 @@
                     <div class="row m0">
                          <div class="contact-wrap">
                             <div class="search-contact">
-                                <input type="text" class="" placeholder="Add to start a chat or group chat" />
-                                <button class="">Search</button>
+                                <input id="search_contacts" type="text" class="" placeholder="Add to start a chat or group chat" />
+                                <button class="">Start</button>
                             </div>
                             <div class="all-contact">
                                 <h4>All Contacts</h4>
-                                <div class="contact-box">
-                                    <div class="contact-image">
-                                        <img src="/media/default.jpg"/>
-                                    </div>
-                                    <div class="contact-name">
-                                        <h4>Abin Varghese Techversant</h4>
-                                        <p>Mobile • +918089552309</p>
-                                    </div>
-                                </div>
-                                   <div class="contact-box">
-                                    <div class="contact-image">
-                                        <img src="/media/default.jpg"/>
-                                    </div>
-                                    <div class="contact-name">
-                                        <h4>Abin Varghese Techversant</h4>
-                                        <p>Mobile • +918089552309</p>
-                                    </div>
-                                </div>
+                                <ul id="contact-list">
+                                    <li class="contact-box">
+                                        <div class="contact-image">
+                                            <img src="/media/default.jpg"/>
+                                        </div>
+                                        <div class="contact-name">
+                                            <h4>Abin Varghese Techversant</h4>
+                                            <p>Mobile • +918089552309</p>
+                                        </div>
+                                    </li>
+                                       <li class="contact-box">
+                                        <div class="contact-image">
+                                            <img src="/media/default.jpg"/>
+                                        </div>
+                                        <div class="contact-name">
+                                            <h4>Abin Varghese Techversant</h4>
+                                            <p>Mobile • +918089552309</p>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -210,6 +212,13 @@
             z.style.display = "block";
         }
     }
+
+    $("#search_contacts").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#contact-list li").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
 
 
     //websocket from django_private_chat
