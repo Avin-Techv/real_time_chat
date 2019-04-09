@@ -73,7 +73,7 @@
                     <ul id="contact-list" class="contact-class">
                         <li class="contact" onclick="displayContacts()">
 					        <div class="wrap">
-						        <img src="/media/new_chat.png" alt="" />
+						        <img src="/media/new_chat.webp" alt="new_chat" />
 						        <div class="meta">
 							        <p class="name">Start a chat</p>
 							        <p class="preview"></p>
@@ -149,7 +149,7 @@
                                                     <img src="{{ user.profile.image.url }}"/>
                                                 </div>
                                                 <div class="contact-name">
-                                                    <h4>{{ user.get_full_name }}</h4>
+                                                    <h4 id="user-full-name" class="user-full-name-class">{{ user.get_full_name }}</h4>
                                                     <p>{{ user.email }}</p>
                                                 </div>
                                                 <div class="contact-tick">
@@ -167,7 +167,7 @@
 
                  <div id="message-input" class="message-input">
                     <div class="wrap">
-                    <input id="chat-message" class="form-control message" type="text" placeholder="Write your message..." />
+                    <input id="chat-message"  class="form-control message" type="text" placeholder="Write your message..." />
                         <i class="fa fa-paperclip attachment" aria-hidden="true"></i>
                         <button id="btn-send-message" type="submit" class="submit send-message"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
                     </div>
@@ -184,7 +184,7 @@
 {% endblock %}
 
 <script>
-
+    // display contacts onclick
     function displayContacts() {
         var x = document.getElementById("contact-menu");
         var y = document.getElementById("messages");
@@ -247,17 +247,109 @@
             }
             else {
                 $(this).attr('src','/media/success-tick.png');
+                var val = $(this).val();
             }
         });
     });
 
+    //search-bar-box on-focus
+    {#$("#search-bar-box").on('focus',function(){#}
+    {#    console.log("eeeeeeeeeeeee");#}
+    //});
 
+    function myFunction() {
+        $(".default-tick-class").show();
+    }
+
+    {#function myNewFunction() {#}
+    {#    $(".default-tick-class").hide();#}
+    {#}#}
+
+    //multiple user select
+    (function( $ ){
+
+         $.fn.multipleInput = function() {
+
+              return this.each(function() {
+
+                   // create html elements
+
+                   // list of email addresses as unordered list
+                   $list = $('<ul />');
+
+                   // input
+                   var $input = $('<input type="text" id="search-bar-box" onfocus="myFunction()"  />').keyup(function(event) {
+
+                   });
+
+                   // container div
+                   var $container = $('<div class="multipleInput-container" />').click(function() {
+                        $input.focus();
+                   });
+
+                   // insert elements into DOM
+                   $container.append($list).append($input).insertAfter($(this));
+
+                   // add onsubmit handler to parent form to copy emails into original input as csv before submitting
+                   var $orig = $(this);
+                   $(this).closest('form').submit(function(e) {
+
+                        var emails = new Array();
+                        $('.multipleInput-email span').each(function() {
+                             emails.push($(this).html());
+                        });
+                        emails.push($input.val());
+
+                        $orig.val(emails.join());
+
+                   });
+
+                   return $(this).hide();
+
+              });
+
+         };
+    })( jQuery );
+
+    $('#search_contacts_new').multipleInput();
+
+    //unique ID for multiple elements using jQuery
+    {#var $inidivual_contact = $("#parent2 span");#}
+    {#$span.attr('id', function (index) {#}
+    {#    return 'span' + index;#}
+    //});
+
+    //contact-box click function
+    $(".contact-box").click(function(){
+        var contact_var = $(this).text().split("\n");
+        var contact_user_name = contact_var[5];
+        console.log(contact_var[5]);
+
+
+         // append to list of emails with remove button
+         $list.append($('<li class="multipleInput-email"><span> ' + contact_user_name + '</span></li>')
+              .append($('<a href="#" class="multipleInput-close" title="Remove">x</a>')
+                   .click(function(e) {
+                        $(this).parent().remove();
+                        e.preventDefault();
+                   })
+              )
+         );
+         $(this).attr('placeholder', '');
+         // empty input
+         $(this).contact_user_name('');
+
+    });
 
 
     //websocket from django_private_chat
 
     var base_ws_server_path = "{{ ws_server_path }}";
     $(document).ready(function () {
+
+    //hide default-tick-class
+    $(".default-tick-class").hide();
+
     var websocket = null;
     var monitor = null;
 
