@@ -9,7 +9,6 @@
 
     <!-- Private Chat JS-->
     <script src="{% static "js/private-chat/jquery-v3.3.1.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/private-chat/bootstrap.min.js" %}" type="text/javascript"></script>
     <script src="{% static "js/private-chat/handlebars-v4.1.1.min.js" %}" type="text/javascript"></script>
     <script src="{% static 'js/chat.js' %}"></script>
 
@@ -20,14 +19,8 @@
     <!-- Users -->
     <script src="https://use.typekit.net/hoy3lrg.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-
 
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
-{#    <link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />#}
     <link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
     <link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
     <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
@@ -35,7 +28,9 @@
     <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
 </head>
@@ -137,7 +132,28 @@
                          <div class="contact-wrap">
                             <div class="search-contact">
                                 <input id="search_contacts_new" type="text" class="" placeholder="Add to start a chat or group chat" />
-                                <button class="">Start</button>
+                                <button id="create-group" data-toggle="modal" data-target="#create-group-modal">Start</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="create-group-modal" role="dialog">
+                                    <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title"></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Name your group</p>
+                                                <input type="text" name="bookId" value=""/>
+
+                                                <button id="create-group-button">Create</button>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top: 0 !important;">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="all-contact">
                                 <h4>All Contacts</h4>
@@ -328,7 +344,7 @@
 
          // append to list of emails with remove button
          $list.append($('<li class="multipleInput-email"><span> ' + contact_user_name + '</span></li>')
-              .append($('<a href="#" class="multipleInput-close" title="Remove">x</a>')
+              .append($('<a id="remove-user" href="#" class="multipleInput-close" title="Remove">x</a>')
                    .click(function(e) {
                         $(this).parent().remove();
                         e.preventDefault();
@@ -337,7 +353,7 @@
          );
          $(this).attr('placeholder', '');
          // empty input
-         $(this).contact_user_name('');
+         $(this).val('');
 
     });
 
