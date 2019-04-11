@@ -63,7 +63,6 @@
                     </div>
                 </div>
 
-
                 <div id="contacts" class="hide-contacts">
                     <ul id="contact-list" class="contact-class">
                         <li class="contact" onclick="displayContacts()">
@@ -144,9 +143,9 @@
                                             </div>
                                             <div class="modal-body">
                                                 <p>Name your group</p>
-                                                <input type="text" name="bookId" value=""/>
-
-                                                <button id="create-group-button">Create</button>
+                                                <input type="text" id="room-name-input" value=""/>
+                                                <button id="room-name-submit">Create</button>
+                                                <br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-top: 0 !important;">Close</button>
@@ -200,6 +199,37 @@
 {% endblock %}
 
 <script>
+
+    //number of users when initating chat
+
+
+    //create a group chat with django channels
+    document.querySelector('#room-name-input').focus();
+    document.querySelector('#room-name-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#room-name-submit').click();
+        }
+    };
+
+    document.querySelector('#room-name-submit').onclick = function(e) {
+        var roomName = document.querySelector('#room-name-input').value;
+        window.location.pathname = 'dialogs/group/' + roomName + '/';
+
+        {#$.ajax({#}
+        {#    url: '/dialogs/group/',#}
+        {#    data: {#}
+        {#        'roomName': roomName#}
+        {#    },#}
+        {#    dataType: 'json',#}
+        {#    success: function (data) {#}
+        {#        if (data.is_taken) {#}
+        {#            alert("A user with this username already exists.");#}
+        {#        }#}
+        {#    }#}
+        //});
+
+    };
+
     // display contacts onclick
     function displayContacts() {
         var x = document.getElementById("contact-menu");
@@ -291,7 +321,7 @@
                    // create html elements
 
                    // list of email addresses as unordered list
-                   $list = $('<ul />');
+                   $list = $('<ul id="user-input" />');
 
                    // input
                    var $input = $('<input type="text" id="search-bar-box" onfocus="myFunction()"  />').keyup(function(event) {
@@ -339,8 +369,6 @@
     $(".contact-box").click(function(){
         var contact_var = $(this).text().split("\n");
         var contact_user_name = contact_var[5];
-        console.log(contact_var[5]);
-
 
          // append to list of emails with remove button
          $list.append($('<li class="multipleInput-email"><span> ' + contact_user_name + '</span></li>')
@@ -348,13 +376,16 @@
                    .click(function(e) {
                         $(this).parent().remove();
                         e.preventDefault();
+                        var user_count = $("#user-input li").length;
+                        console.log(user_count);
                    })
               )
          );
          $(this).attr('placeholder', '');
          // empty input
          $(this).val('');
-
+         var user_count = $("#user-input li").length;
+         console.log(user_count);
     });
 
 

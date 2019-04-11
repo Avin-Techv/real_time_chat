@@ -15,7 +15,6 @@ class UserLoginView(LoginView):
         context['user_list'] = User.objects.all()
         return context
 
-
     def get_success_url(self):
         url = self.get_redirect_url(),
         url_front = resolve_url(settings.LOGIN_REDIRECT_URL)

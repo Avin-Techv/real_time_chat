@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -134,3 +135,5 @@ MEDIA_URL = '/media/'
 
 # PHONENUMBER_DB_FORMAT = "NATIONAL"
 # PHONENUMBER_DEFAULT_REGION = "IN"
+
+ASGI_APPLICATION = 'real_time_chat.routing.application'
