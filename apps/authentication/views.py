@@ -16,6 +16,7 @@ class UserLoginView(LoginView):
         return context
 
     def get_success_url(self):
+        import pdb;pdb.set_trace()
         url = self.get_redirect_url(),
         url_front = resolve_url(settings.LOGIN_REDIRECT_URL)
         url_back = self.request.user.username
